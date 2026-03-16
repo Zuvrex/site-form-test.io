@@ -56,7 +56,6 @@
     <h2>Опишите себя</h2>
     <input type="text" id="title" placeholder="Заголовок анкеты (например: Ищу друга)" maxlength="100">
     
-    <!-- Добавлено ограничение только на изображения -->
     <input type="file" id="photos" accept="image/jpeg, image/png, image/gif" multiple>
     <span class="hint">Можно прикрепить до 3-х фотографий (каждая до 5 МБ)</span>
     
@@ -84,7 +83,6 @@
                 return;
             }
 
-            // Проверка размера файлов перед отправкой (макс 5 МБ на файл)
             for (let i = 0; i < fileInput.files.length; i++) {
                 if (fileInput.files[i].size > 5 * 1024 * 1024) {
                     tg.showAlert(`Файл "${fileInput.files[i].name}" слишком большой. Максимальный размер — 5 МБ.`);
@@ -92,21 +90,19 @@
                 }
             }
 
-            // Блокируем кнопку на время загрузки
             btn.disabled = true;
             btn.innerText = "Загрузка фото и создание анкеты...";
 
             let photoUrls = [];
 
-            // Если пользователь выбрал файлы, загружаем их в Telegraph по одному
             if (fileInput.files.length > 0) {
                 try {
                     for (let i = 0; i < fileInput.files.length; i++) {
                         const formData = new FormData();
                         formData.append('file', fileInput.files[i]);
 
-                        // Используем corsproxy.io для обхода блокировки браузером (CORS)
-                        const response = await fetch('https://corsproxy.io/?https://telegra.ph/upload', {
+                        // ИСПОЛЬЗУЕМ ДРУГОЙ CORS-ПРОКСИ
+                        const response = await fetch('https://thingproxy.freeboard.io/fetch/https://telegra.ph/upload', {
                             method: 'POST',
                             body: formData
                         });
@@ -117,7 +113,6 @@
                             throw new Error(data.error);
                         }
                         
-                        // Telegraph возвращает массив, берем src первого и единственного элемента
                         if (data[0] && data[0].src) {
                             photoUrls.push(data[0].src);
                         }
@@ -127,18 +122,16 @@
                     tg.showAlert("Ошибка при загрузке фото. Убедитесь, что это стандартные изображения (JPG/PNG), или попробуйте без фото.");
                     btn.disabled = false;
                     btn.innerText = "Сохранить объявление";
-                    return; // Прерываем процесс, если фото не загрузились
+                    return;
                 }
             }
 
-            // Формируем JSON с данными
             const payload = {
                 title: title,
                 description: desc,
                 photos: photoUrls
             };
 
-            // Отправляем JSON боту и закрываем окно
             tg.sendData(JSON.stringify(payload));
         }
     </script>
