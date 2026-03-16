@@ -101,9 +101,13 @@
                         const formData = new FormData();
                         formData.append('file', fileInput.files[i]);
 
-                        // ИСПОЛЬЗУЕМ ДРУГОЙ CORS-ПРОКСИ
-                        const response = await fetch('https://thingproxy.freeboard.io/fetch/https://telegra.ph/upload', {
+                        // ИСПОЛЬЗУЕМ НОВЫЙ CORS-ПРОКСИ (cors.sh)
+                        const response = await fetch('https://cors.sh/https://telegra.ph/upload', {
                             method: 'POST',
+                            headers: {
+                                // Временный ключ для демо-доступа к cors.sh. Может меняться.
+                                'x-cors-api-key': 'temp_a58289192481977415102a991c33d12f'
+                            },
                             body: formData
                         });
                         
