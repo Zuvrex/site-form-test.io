@@ -54,6 +54,15 @@
         const tg = window.Telegram.WebApp;
         tg.expand();
 
+        // Читаем параметры из URL (если форма открыта для редактирования)
+        const params = new URLSearchParams(window.location.search);
+        const initialTitle = params.get('title');
+        const initialDesc = params.get('desc');
+
+        // Предзаполняем поля старыми значениями, если они переданы ботом
+        if (initialTitle) document.getElementById('title').value = initialTitle;
+        if (initialDesc) document.getElementById('description').value = initialDesc;
+
         function sendForm() {
             const title = document.getElementById('title').value.trim();
             const desc = document.getElementById('description').value.trim();
