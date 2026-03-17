@@ -56,6 +56,7 @@
 
         // Читаем параметры из URL (если форма открыта для редактирования)
         const params = new URLSearchParams(window.location.search);
+        const editMsgId = params.get('edit_msg_id');
         const initialTitle = params.get('title');
         const initialDesc = params.get('desc');
 
@@ -76,6 +77,11 @@
                 title: title,
                 description: desc
             };
+
+            // Если это редактирование, передаем ID редактируемого сообщения обратно боту
+            if (editMsgId) {
+                payload.edit_msg_id = parseInt(editMsgId);
+            }
 
             // Отправляем JSON боту (только текст) и закрываем окно
             tg.sendData(JSON.stringify(payload));
