@@ -40,6 +40,11 @@
             font-weight: bold;
             cursor: pointer;
         }
+        #noPhotoBtn {
+            background-color: var(--tg-theme-secondary-bg-color, #f0f0f0);
+            color: var(--tg-theme-text-color, #000000);
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -48,7 +53,8 @@
     <input type="text" id="title" placeholder="Заголовок анкеты (например: Ищу друга)" maxlength="50">
     <textarea id="description" placeholder="Ваш возраст, город, интересы и т.д..." maxlength="5000"></textarea>
     
-    <button id="submitBtn" onclick="sendForm()">Далее (добавить фото)</button>
+    <button id="submitBtn" onclick="sendForm(false)">Далее (добавить фото)</button>
+    <button id="noPhotoBtn" onclick="sendForm(true)">Создать анкету без фото</button>
 
     <script>
         const tg = window.Telegram.WebApp;
@@ -64,7 +70,7 @@
         if (initialTitle) document.getElementById('title').value = initialTitle;
         if (initialDesc) document.getElementById('description').value = initialDesc;
 
-        function sendForm() {
+        function sendForm(noPhoto = false) {
             const title = document.getElementById('title').value.trim();
             const desc = document.getElementById('description').value.trim();
 
@@ -77,6 +83,10 @@
                 title: title,
                 description: desc
             };
+
+            if (noPhoto) {
+                payload.no_photo = true;
+            }
 
             // Если это редактирование, передаем ID редактируемого сообщения обратно боту
             if (editMsgId) {
