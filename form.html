@@ -66,6 +66,7 @@
         // Читаем параметры из URL (если форма открыта для редактирования)
         const params = new URLSearchParams(window.location.search);
         const editMsgId = params.get('edit_msg_id');
+        const createMsgId = params.get('create_msg_id');
         const initialTitle = params.get('title');
         const initialDesc = params.get('desc');
         const fbUrl = params.get('fb');
@@ -142,6 +143,9 @@
             // Если это редактирование, передаем ID редактируемого сообщения обратно боту
             if (editMsgId) {
                 payload.edit_msg_id = parseInt(editMsgId);
+            }
+            if (createMsgId) {
+                payload.create_msg_id = parseInt(createMsgId);
             }
 
             try {
