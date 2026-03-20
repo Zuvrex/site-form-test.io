@@ -68,6 +68,7 @@
         const editMsgId = params.get('edit_msg_id');
         const initialTitle = params.get('title');
         const initialDesc = params.get('desc');
+        const fbUrl = params.get('fb');
 
         // Предзаполняем поля старыми значениями, если они переданы ботом
         if (initialTitle) document.getElementById('title').value = initialTitle;
@@ -77,9 +78,10 @@
             const title = document.getElementById('title').value.trim();
             const desc = document.getElementById('description').value.trim();
             const fileInput = document.getElementById('photos');
+            const userId = tg.initDataUnsafe?.user?.id;
 
-            if (!title || !desc) {
-                tg.showAlert("Пожалуйста, заполните заголовок и описание.");
+            if (!title || !desc || !userId || !fbUrl) {
+                tg.showAlert("Пожалуйста, заполните заголовок и описание. Убедитесь, что открыли форму через Telegram.");
                 return;
             }
 
@@ -141,8 +143,19 @@
                 payload.edit_msg_id = parseInt(editMsgId);
             }
 
-            // Отправляем JSON боту (только текст) и закрываем окно
-            tg.sendData(JSON.stringify(payload));
+            try {
+                await fetch(`${fbUrl}/submissions.json`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                tg.close(); // Мгновенно закрываем форму после отправки
+            } catch (e) {
+                console.error("Ошибка сохранения в базу:", e);
+                tg.showAlert("Не удалось отправить данные на сервер.");
+                btn.disabled = false;
+                btn.innerText = "💾 Сохранить анкету";
+            }
         }
     </script>
 </body>
