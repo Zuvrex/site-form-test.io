@@ -26,6 +26,10 @@
     <textarea id="description" placeholder="Ваш возраст, город, интересы и т.д..."></textarea>
     <div id="descCounter" class="counter">0/1500</div>
 
+    <label for="photos" class="field-label">Фотографии <span class="optional">(необязательно)</span></label>
+    <input type="file" id="photos" accept="image/jpeg, image/png, image/gif" multiple>
+    <span class="hint">Можно прикрепить до 3-х фотографий (каждая до 5 МБ)</span>
+
     <details>
         <summary class="section-title" style="cursor: pointer; user-select: none;">Дополнительные параметры <span class="optional">(необязательно)</span></summary>
         
@@ -86,16 +90,12 @@
         <option value="нейтральное">Нейтральное</option>
     </select>
     </div>
-    </details>
 
-    <div class="section-title">Фотографии <span class="optional">(необязательно)</span></div>
-    <input type="file" id="photos" accept="image/jpeg, image/png, image/gif" multiple>
-    <span class="hint">Можно прикрепить до 3-х фотографий (каждая до 5 МБ)</span>
-
-    <div class="section-title">Теги <span class="optional">(необязательно, до 3-х)</span></div>
+    <div class="sub-section-title">Теги <span class="optional">(необязательно, до 3-х)</span></div>
     <div class="tags-container" id="tagsContainer">
         <div style="text-align: center; color: gray; padding: 10px;">Загрузка тегов...</div>
     </div>
+    </details>
 
     <div id="formError" class="error-text" style="text-align: center; font-size: 15px;"></div>
     <button id="submitBtn" onclick="sendForm()">Сохранить объявление</button>
