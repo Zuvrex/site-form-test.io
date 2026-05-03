@@ -18,7 +18,7 @@
     </div>
     <div id="section1Error" class="error-text" style="text-align: left; margin-top: 5px;">Пожалуйста, выберите хотя бы один вариант.</div>
 
-    <label for="title" class="field-label">Заголовок анкеты <span class="optional">(необязательно)</span></label>
+    <label for="title" class="field-label" style="margin-top: 25px;">Заголовок анкеты <span class="optional">(необязательно)</span></label>
     <input type="text" id="title" placeholder="Например: Ищу друга">
     <div id="titleCounter" class="counter">0/50</div>
 
@@ -30,8 +30,8 @@
     <input type="file" id="photos" accept="image/jpeg, image/png, image/gif" multiple>
     <span class="hint">Можно прикрепить до 3-х фотографий (каждая до 5 МБ)</span>
 
-    <details>
-        <summary class="section-title" style="cursor: pointer; user-select: none;">Дополнительные параметры <span class="optional">(необязательно)</span></summary>
+    <details style="margin-top: 25px;">
+        <summary class="section-title" style="cursor: pointer; user-select: none; margin-top: 0;">Дополнительные параметры <span class="optional">(необязательно)</span></summary>
         
         <div class="sub-section-title">Мои параметры</div>
     <div class="inline-field">
@@ -91,7 +91,7 @@
     </select>
     </div>
 
-    <div class="sub-section-title">Теги <span class="optional">(необязательно, до 3-х)</span></div>
+    <div class="sub-section-title">Теги <span class="optional">(до 3-х)</span></div>
     <div class="tags-container" id="tagsContainer">
         <div style="text-align: center; color: gray; padding: 10px;">Загрузка тегов...</div>
     </div>
@@ -198,7 +198,7 @@
                     } else {
                         const isSelected = initialData?.tags?.includes(t) ? 'selected' : '';
                         if(isSelected) selectedTags.push(t);
-                        currentHtml += `<div class="tag-chip ${isSelected}" onclick="toggleTag(this, '${t}')">${t}</div>`;
+                        currentHtml += `<div class="tag-chip ${isSelected}" onclick="toggleTag(this, '${t}')">#${t}</div>`;
                     }
                 });
                 container.innerHTML = currentHtml;
