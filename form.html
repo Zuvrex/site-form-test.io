@@ -5,166 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Создание объявления</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: var(--tg-theme-bg-color, #ffffff);
-            color: var(--tg-theme-text-color, #000000);
-            padding: 15px;
-            margin: 0;
-        }
-        input, textarea {
-            width: 100%;
-            box-sizing: border-box;
-            padding: 10px;
-            margin-top: 10px;
-            border: 1px solid var(--tg-theme-hint-color, #ccc);
-            border-radius: 8px;
-            background-color: var(--tg-theme-bg-color, #ffffff);
-            color: var(--tg-theme-text-color, #000000);
-            font-size: 16px;
-            outline: none;
-        }
-        select { padding: 10px; width: 100%; border-radius: 8px; border: 1px solid var(--tg-theme-hint-color, #ccc); margin-top: 10px; background-color: var(--tg-theme-bg-color, #ffffff); color: var(--tg-theme-text-color, #000000); font-size: 16px;}
-        textarea {
-            height: 120px;
-            resize: none;
-        }
-        button {
-            width: 100%;
-            padding: 15px;
-            margin-top: 25px;
-            border: none;
-            border-radius: 8px;
-            background-color: var(--tg-theme-button-color, #3390ec);
-            color: var(--tg-theme-button-text-color, #ffffff);
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        .hint {
-            font-size: 12px;
-            color: var(--tg-theme-hint-color, #999);
-            margin-top: 5px;
-            display: block;
-        }
-        .field-label {
-            font-size: 14px;
-            font-weight: bold;
-            display: block;
-            margin-top: 15px;
-        }
-        .optional {
-            font-weight: normal;
-            font-size: 12px;
-            color: var(--tg-theme-hint-color, #999);
-        }
-        .counter {
-            font-size: 12px;
-            color: var(--tg-theme-hint-color, #999);
-            text-align: right;
-            margin-top: 4px;
-        }
-        .limit-exceeded {
-            color: #ff4d4d !important;
-        }
-        .error-border {
-            border: 1px solid #ff4d4d !important;
-        }
-        .error-text {
-            color: #ff4d4d;
-            font-size: 14px;
-            margin-top: 15px;
-            display: none;
-            text-align: center;
-        }
-        .section-title {
-            font-size: 18px;
-            font-weight: bold;
-            margin-top: 25px;
-            margin-bottom: 5px;
-            border-bottom: 1px solid var(--tg-theme-hint-color, #eee);
-            padding-bottom: 5px;
-        }
-        .checkbox-group {
-            display: flex;
-            gap: 15px;
-            margin-top: 10px;
-        }
-        .checkbox-group label {
-            display: flex;
-            align-items: center;
-            font-size: 16px;
-            cursor: pointer;
-        }
-        .checkbox-group input[type="checkbox"] {
-            width: auto;
-            margin: 0 8px 0 0;
-            transform: scale(1.3);
-        }
-        .row-inputs {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-        .row-inputs input { margin-top: 5px; }
-        .tags-container {
-            max-height: 250px;
-            overflow-y: auto;
-            border: 1px solid var(--tg-theme-hint-color, #ccc);
-            border-radius: 8px;
-            padding: 10px;
-            margin-top: 10px;
-            background: var(--tg-theme-secondary-bg-color, #f4f4f5);
-        }
-        .tag-category {
-            font-weight: bold;
-            font-size: 14px;
-            margin-top: 10px;
-            margin-bottom: 5px;
-            color: var(--tg-theme-hint-color, #777);
-        }
-        .tag-chip {
-            display: inline-block;
-            padding: 6px 12px;
-            background-color: var(--tg-theme-bg-color, #fff);
-            border: 1px solid var(--tg-theme-hint-color, #ccc);
-            border-radius: 20px;
-            margin: 3px;
-            font-size: 14px;
-            cursor: pointer;
-            user-select: none;
-            transition: 0.2s;
-        }
-        .tag-chip.selected {
-            background-color: var(--tg-theme-button-color, #3390ec);
-            color: var(--tg-theme-button-text-color, #ffffff);
-            border-color: var(--tg-theme-button-color, #3390ec);
-        }
-        .inline-field {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-top: 10px;
-        }
-        .inline-field label {
-            font-size: 14px;
-            font-weight: bold;
-            min-width: 75px;
-        }
-        .inline-field input, .inline-field select {
-            margin-top: 0;
-            padding: 8px;
-            flex: 1;
-            width: 100%;
-        }
-        .inline-field span {
-            font-size: 14px;
-            white-space: nowrap;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<div class="container">
+    <div class="section-title">Раздел 1 <span style="color:#ff4d4d">*</span></div>
+    <div class="checkbox-group">
+        <label><input type="checkbox" name="section1" value="чекбокс1" id="cb1"> чекбокс1</label>
+        <label><input type="checkbox" name="section1" value="чекбокс2" id="cb2"> чекбокс2</label>
+        <label><input type="checkbox" name="section1" value="чекбокс3" id="cb3"> чекбокс3</label>
+    </div>
+    <div id="section1Error" class="error-text" style="text-align: left; margin-top: 5px;">Пожалуйста, выберите хотя бы один вариант.</div>
 
     <div class="section-title">Основное</div>
     <label for="title" class="field-label">Заголовок анкеты <span class="optional">(необязательно)</span></label>
@@ -174,14 +25,6 @@
     <label for="description" class="field-label">Описание <span style="color:#ff4d4d">*</span></label>
     <textarea id="description" placeholder="Ваш возраст, город, интересы и т.д..."></textarea>
     <div id="descCounter" class="counter">0/1500</div>
-    
-    <label class="field-label">Раздел 1 <span style="color:#ff4d4d">*</span></label>
-    <div class="checkbox-group">
-        <label><input type="checkbox" name="section1" value="чекбокс1" id="cb1"> чекбокс1</label>
-        <label><input type="checkbox" name="section1" value="чекбокс2" id="cb2"> чекбокс2</label>
-        <label><input type="checkbox" name="section1" value="чекбокс3" id="cb3"> чекбокс3</label>
-    </div>
-    <div id="section1Error" class="error-text" style="text-align: left; margin-top: 5px;">Пожалуйста, выберите хотя бы один вариант.</div>
 
     <div class="section-title">Мои параметры <span class="optional">(необязательно)</span></div>
     <div class="inline-field">
@@ -241,8 +84,9 @@
         <option value="отрицательное">Отрицательное</option>
         <option value="нейтральное">Нейтральное</option>
     </select>
+    </div>
 
-    <label for="photos" class="field-label">Фотографии <span class="optional">(необязательно)</span></label>
+    <div class="section-title">Фотографии <span class="optional">(необязательно)</span></div>
     <input type="file" id="photos" accept="image/jpeg, image/png, image/gif" multiple>
     <span class="hint">Можно прикрепить до 3-х фотографий (каждая до 5 МБ)</span>
 
@@ -251,8 +95,9 @@
         <div style="text-align: center; color: gray; padding: 10px;">Загрузка тегов...</div>
     </div>
 
-    <div id="formError" class="error-text"></div>
+    <div id="formError" class="error-text" style="text-align: center; font-size: 15px;"></div>
     <button id="submitBtn" onclick="sendForm()">Сохранить объявление</button>
+</div>
 
     <script>
         const tg = window.Telegram.WebApp;
