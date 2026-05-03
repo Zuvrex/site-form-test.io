@@ -25,6 +25,7 @@
             font-size: 16px;
             outline: none;
         }
+        select { padding: 10px; width: 100%; border-radius: 8px; border: 1px solid var(--tg-theme-hint-color, #ccc); margin-top: 10px; background-color: var(--tg-theme-bg-color, #ffffff); color: var(--tg-theme-text-color, #000000); font-size: 16px;}
         textarea {
             height: 150px;
             resize: none;
@@ -77,21 +78,138 @@
             display: none;
             text-align: center;
         }
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 25px;
+            margin-bottom: 5px;
+            border-bottom: 1px solid var(--tg-theme-hint-color, #eee);
+            padding-bottom: 5px;
+        }
+        .checkbox-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            margin: 0 8px 0 0;
+            transform: scale(1.3);
+        }
+        .row-inputs {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .row-inputs input { margin-top: 5px; }
+        .tags-container {
+            max-height: 250px;
+            overflow-y: auto;
+            border: 1px solid var(--tg-theme-hint-color, #ccc);
+            border-radius: 8px;
+            padding: 10px;
+            margin-top: 10px;
+            background: var(--tg-theme-secondary-bg-color, #f4f4f5);
+        }
+        .tag-category {
+            font-weight: bold;
+            font-size: 14px;
+            margin-top: 10px;
+            margin-bottom: 5px;
+            color: var(--tg-theme-hint-color, #777);
+        }
+        .tag-chip {
+            display: inline-block;
+            padding: 6px 12px;
+            background-color: var(--tg-theme-bg-color, #fff);
+            border: 1px solid var(--tg-theme-hint-color, #ccc);
+            border-radius: 20px;
+            margin: 3px;
+            font-size: 14px;
+            cursor: pointer;
+            user-select: none;
+            transition: 0.2s;
+        }
+        .tag-chip.selected {
+            background-color: var(--tg-theme-button-color, #3390ec);
+            color: var(--tg-theme-button-text-color, #ffffff);
+            border-color: var(--tg-theme-button-color, #3390ec);
+        }
     </style>
 </head>
 <body>
     
+    <div class="section-title">Раздел 1 <span style="color:#ff4d4d">*</span></div>
+    <div class="checkbox-group">
+        <label><input type="checkbox" name="section1" value="чекбокс1" id="cb1"> чекбокс1</label>
+        <label><input type="checkbox" name="section1" value="чекбокс2" id="cb2"> чекбокс2</label>
+        <label><input type="checkbox" name="section1" value="чекбокс3" id="cb3"> чекбокс3</label>
+    </div>
+
+    <div class="section-title">Основное</div>
     <label for="title" class="field-label">Заголовок <span class="optional">(необязательно)</span></label>
     <input type="text" id="title" placeholder="Например: Ищу друга">
     <div id="titleCounter" class="counter">0/50</div>
 
-    <label for="description" class="field-label">Описание </label>
+    <label for="description" class="field-label">Описание <span style="color:#ff4d4d">*</span></label>
     <textarea id="description" placeholder="Ваш возраст, город, интересы и т.д..."></textarea>
     <div id="descCounter" class="counter">0/1500</div>
     
+    <div class="section-title">Мои параметры <span class="optional">(необязательно)</span></div>
+    <label class="field-label">Возраст (лет)</label>
+    <input type="number" id="my_age" placeholder="Например: 25" min="18">
+    <label class="field-label">Рост (см)</label>
+    <input type="number" id="my_height" placeholder="Например: 175">
+    <label class="field-label">Вес (кг)</label>
+    <input type="number" id="my_weight" placeholder="Например: 65">
+    <label class="field-label">список 1</label>
+    <select id="my_list1">
+        <option value="" disabled selected>Выберите...</option>
+        <option value="не важно">Не важно</option>
+        <option value="положительное">Положительное</option>
+        <option value="отрицательное">Отрицательное</option>
+        <option value="нейтральное">Нейтральное</option>
+    </select>
+
+    <div class="section-title">Мои предпочтения <span class="optional">(необязательно)</span></div>
+    <label class="field-label">Возраст (лет)</label>
+    <div class="row-inputs">
+        <span>От</span> <input type="number" id="pref_age_from" min="18" placeholder="18">
+        <span>До</span> <input type="number" id="pref_age_to" min="18" placeholder="30">
+    </div>
+    <label class="field-label">Рост (см)</label>
+    <div class="row-inputs">
+        <span>От</span> <input type="number" id="pref_height_from" placeholder="160">
+        <span>До</span> <input type="number" id="pref_height_to" placeholder="190">
+    </div>
+    <label class="field-label">Вес (кг)</label>
+    <div class="row-inputs">
+        <span>От</span> <input type="number" id="pref_weight_from" placeholder="50">
+        <span>До</span> <input type="number" id="pref_weight_to" placeholder="80">
+    </div>
+    <label class="field-label">список 2</label>
+    <select id="pref_list2">
+        <option value="" disabled selected>Выберите...</option>
+        <option value="не важно">Не важно</option>
+        <option value="положительное">Положительное</option>
+        <option value="отрицательное">Отрицательное</option>
+        <option value="нейтральное">Нейтральное</option>
+    </select>
+
     <label for="photos" class="field-label">Фотографии <span class="optional">(необязательно)</span></label>
     <input type="file" id="photos" accept="image/jpeg, image/png, image/gif" multiple>
     <span class="hint">Можно прикрепить до 3-х фотографий (каждая до 5 МБ)</span>
+
+    <div class="section-title">Теги <span class="optional">(необязательно, до 3-х)</span></div>
+    <div class="tags-container" id="tagsContainer">
+        <div style="text-align: center; color: gray; padding: 10px;">Загрузка тегов...</div>
+    </div>
 
     <div id="formError" class="error-text"></div>
     <button id="submitBtn" onclick="sendForm()">Сохранить объявление</button>
@@ -104,13 +222,17 @@
         const params = new URLSearchParams(window.location.search);
         const editMsgId = params.get('edit_msg_id');
         const createMsgId = params.get('create_msg_id');
-        const initialTitle = params.get('title');
-        const initialDesc = params.get('desc');
+        const formDataStr = params.get('form_data');
         const fbUrl = params.get('fb');
 
-        // Предзаполняем поля старыми значениями, если они переданы ботом
-        if (initialTitle) document.getElementById('title').value = initialTitle;
-        if (initialDesc) document.getElementById('description').value = initialDesc;
+        let initialData = null;
+        if (formDataStr) {
+            try {
+                initialData = JSON.parse(decodeURIComponent(formDataStr));
+            } catch (e) {
+                console.error("Ошибка парсинга form_data", e);
+            }
+        }
 
         const titleInput = document.getElementById('title');
         const descInput = document.getElementById('description');
@@ -144,7 +266,96 @@
         titleInput.addEventListener('input', updateCounters);
         descInput.addEventListener('input', updateCounters);
         
-        // Инициализация счетчиков при загрузке
+        // Валидация возраста на лету
+        const ageInputs = ['my_age', 'pref_age_from', 'pref_age_to'];
+        ageInputs.forEach(id => {
+            const el = document.getElementById(id);
+            el.addEventListener('input', () => {
+                if (el.value && parseInt(el.value) < 18) el.classList.add('error-border');
+                else el.classList.remove('error-border');
+            });
+        });
+
+        let selectedTags = [];
+        
+        // Загрузка тегов из файла
+        async function loadTags() {
+            try {
+                const response = await fetch('hashtags.txt');
+                const text = await response.text();
+                const container = document.getElementById('tagsContainer');
+                container.innerHTML = '';
+                
+                let currentHtml = '';
+                const lines = text.split('\n');
+                
+                lines.forEach(line => {
+                    const t = line.trim();
+                    if (!t) return;
+                    if (t.startsWith('*') && t.endsWith('*')) {
+                        currentHtml += `<div class="tag-category">${t.slice(1, -1)}</div>`;
+                    } else {
+                        const isSelected = initialData?.tags?.includes(t) ? 'selected' : '';
+                        if(isSelected) selectedTags.push(t);
+                        currentHtml += `<div class="tag-chip ${isSelected}" onclick="toggleTag(this, '${t}')">${t}</div>`;
+                    }
+                });
+                container.innerHTML = currentHtml;
+            } catch (e) {
+                document.getElementById('tagsContainer').innerHTML = '<div style="color:red; padding:10px;">Ошибка загрузки тегов</div>';
+            }
+        }
+
+        window.toggleTag = function(element, tag) {
+            if (selectedTags.includes(tag)) {
+                selectedTags = selectedTags.filter(t => t !== tag);
+                element.classList.remove('selected');
+            } else {
+                if (selectedTags.length >= 3) {
+                    tg.showAlert("Можно выбрать не более 3-х тегов.");
+                    return;
+                }
+                selectedTags.push(tag);
+                element.classList.add('selected');
+            }
+        }
+
+        // Предзаполнение формы
+        if (initialData) {
+            if (initialData.title) titleInput.value = initialData.title;
+            if (initialData.description) descInput.value = initialData.description;
+            
+            if (initialData.section1) {
+                ['cb1', 'cb2', 'cb3'].forEach((id, idx) => {
+                    const val = ['чекбокс1', 'чекбокс2', 'чекбокс3'][idx];
+                    document.getElementById(id).checked = initialData.section1.includes(val);
+                });
+            }
+            
+            if(initialData.my_params) {
+                if(initialData.my_params.age) document.getElementById('my_age').value = initialData.my_params.age;
+                if(initialData.my_params.height) document.getElementById('my_height').value = initialData.my_params.height;
+                if(initialData.my_params.weight) document.getElementById('my_weight').value = initialData.my_params.weight;
+                if(initialData.my_params.list1) document.getElementById('my_list1').value = initialData.my_params.list1;
+            }
+            
+            if(initialData.my_prefs) {
+                if(initialData.my_prefs.age_from) document.getElementById('pref_age_from').value = initialData.my_prefs.age_from;
+                if(initialData.my_prefs.age_to) document.getElementById('pref_age_to').value = initialData.my_prefs.age_to;
+                if(initialData.my_prefs.height_from) document.getElementById('pref_height_from').value = initialData.my_prefs.height_from;
+                if(initialData.my_prefs.height_to) document.getElementById('pref_height_to').value = initialData.my_prefs.height_to;
+                if(initialData.my_prefs.weight_from) document.getElementById('pref_weight_from').value = initialData.my_prefs.weight_from;
+                if(initialData.my_prefs.weight_to) document.getElementById('pref_weight_to').value = initialData.my_prefs.weight_to;
+                if(initialData.my_prefs.list2) document.getElementById('pref_list2').value = initialData.my_prefs.list2;
+            }
+        } else {
+            // По умолчанию выбираем все 3 чекбокса для Раздела 1 для новых пользователей
+            document.getElementById('cb1').checked = true;
+            document.getElementById('cb2').checked = true;
+            document.getElementById('cb3').checked = true;
+        }
+
+        loadTags();
         updateCounters();
 
         async function sendForm() {
@@ -152,13 +363,27 @@
             const desc = document.getElementById('description').value.trim();
             const fileInput = document.getElementById('photos');
             const userId = tg.initDataUnsafe?.user?.id;
+            
+            const section1 = Array.from(document.querySelectorAll('input[name="section1"]:checked')).map(cb => cb.value);
 
             errorText.style.display = 'none';
             let hasError = false;
             let errorMsg = "";
+            
+            // Проверка возраста
+            const age1 = document.getElementById('my_age').value;
+            const age2 = document.getElementById('pref_age_from').value;
+            const age3 = document.getElementById('pref_age_to').value;
+            if ((age1 && parseInt(age1) < 18) || (age2 && parseInt(age2) < 18) || (age3 && parseInt(age3) < 18)) {
+                hasError = true;
+                errorMsg = "Минимальный допустимый возраст — 18 лет.";
+            }
 
             if (!userId || !fbUrl) {
                 errorMsg = "Ошибка авторизации. Убедитесь, что открыли форму через Telegram.";
+                hasError = true;
+            } else if (section1.length === 0) {
+                errorMsg = "Пожалуйста, выберите хотя бы один вариант в разделе 'Раздел 1'.";
                 hasError = true;
             } else if (!desc) {
                 descInput.classList.add('error-border');
@@ -230,6 +455,23 @@
             const payload = {
                 title: title,
                 description: desc,
+                section1: section1,
+                my_params: {
+                    age: document.getElementById('my_age').value,
+                    height: document.getElementById('my_height').value,
+                    weight: document.getElementById('my_weight').value,
+                    list1: document.getElementById('my_list1').value || ""
+                },
+                my_prefs: {
+                    age_from: document.getElementById('pref_age_from').value,
+                    age_to: document.getElementById('pref_age_to').value,
+                    height_from: document.getElementById('pref_height_from').value,
+                    height_to: document.getElementById('pref_height_to').value,
+                    weight_from: document.getElementById('pref_weight_from').value,
+                    weight_to: document.getElementById('pref_weight_to').value,
+                    list2: document.getElementById('pref_list2').value || ""
+                },
+                tags: selectedTags,
                 photos: photoUrls,
                 user_id: userId
             };
