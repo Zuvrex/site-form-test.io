@@ -27,7 +27,7 @@
         }
         select { padding: 10px; width: 100%; border-radius: 8px; border: 1px solid var(--tg-theme-hint-color, #ccc); margin-top: 10px; background-color: var(--tg-theme-bg-color, #ffffff); color: var(--tg-theme-text-color, #000000); font-size: 16px;}
         textarea {
-            height: 150px;
+            height: 120px;
             resize: none;
         }
         button {
@@ -141,19 +141,33 @@
             color: var(--tg-theme-button-text-color, #ffffff);
             border-color: var(--tg-theme-button-color, #3390ec);
         }
+        .inline-field {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        .inline-field label {
+            font-size: 14px;
+            font-weight: bold;
+            min-width: 75px;
+        }
+        .inline-field input, .inline-field select {
+            margin-top: 0;
+            padding: 8px;
+            flex: 1;
+            width: 100%;
+        }
+        .inline-field span {
+            font-size: 14px;
+            white-space: nowrap;
+        }
     </style>
 </head>
 <body>
-    
-    <div class="section-title">Раздел 1 <span style="color:#ff4d4d">*</span></div>
-    <div class="checkbox-group">
-        <label><input type="checkbox" name="section1" value="чекбокс1" id="cb1"> чекбокс1</label>
-        <label><input type="checkbox" name="section1" value="чекбокс2" id="cb2"> чекбокс2</label>
-        <label><input type="checkbox" name="section1" value="чекбокс3" id="cb3"> чекбокс3</label>
-    </div>
 
     <div class="section-title">Основное</div>
-    <label for="title" class="field-label">Заголовок <span class="optional">(необязательно)</span></label>
+    <label for="title" class="field-label">Заголовок анкеты <span class="optional">(необязательно)</span></label>
     <input type="text" id="title" placeholder="Например: Ищу друга">
     <div id="titleCounter" class="counter">0/50</div>
 
@@ -161,42 +175,68 @@
     <textarea id="description" placeholder="Ваш возраст, город, интересы и т.д..."></textarea>
     <div id="descCounter" class="counter">0/1500</div>
     
+    <label class="field-label">Раздел 1 <span style="color:#ff4d4d">*</span></label>
+    <div class="checkbox-group">
+        <label><input type="checkbox" name="section1" value="чекбокс1" id="cb1"> чекбокс1</label>
+        <label><input type="checkbox" name="section1" value="чекбокс2" id="cb2"> чекбокс2</label>
+        <label><input type="checkbox" name="section1" value="чекбокс3" id="cb3"> чекбокс3</label>
+    </div>
+    <div id="section1Error" class="error-text" style="text-align: left; margin-top: 5px;">Пожалуйста, выберите хотя бы один вариант.</div>
+
     <div class="section-title">Мои параметры <span class="optional">(необязательно)</span></div>
-    <label class="field-label">Возраст (лет)</label>
-    <input type="number" id="my_age" placeholder="Например: 25" min="18">
-    <label class="field-label">Рост (см)</label>
-    <input type="number" id="my_height" placeholder="Например: 175">
-    <label class="field-label">Вес (кг)</label>
-    <input type="number" id="my_weight" placeholder="Например: 65">
-    <label class="field-label">список 1</label>
-    <select id="my_list1">
-        <option value="" disabled selected>Выберите...</option>
-        <option value="не важно">Не важно</option>
-        <option value="положительное">Положительное</option>
-        <option value="отрицательное">Отрицательное</option>
-        <option value="нейтральное">Нейтральное</option>
-    </select>
+    <div class="inline-field">
+        <label for="my_age">Возраст:</label>
+        <input type="number" id="my_age" min="18">
+        <span>лет</span>
+    </div>
+    <div class="inline-field">
+        <label for="my_height">Рост:</label>
+        <input type="number" id="my_height">
+        <span>см</span>
+    </div>
+    <div class="inline-field">
+        <label for="my_weight">Вес:</label>
+        <input type="number" id="my_weight">
+        <span>кг</span>
+    </div>
+    <div class="inline-field">
+        <label for="my_list1">список 1:</label>
+        <select id="my_list1">
+            <option value="" disabled selected>Выберите...</option>
+            <option value="не важно">Не важно</option>
+            <option value="положительное">Положительное</option>
+            <option value="отрицательное">Отрицательное</option>
+            <option value="нейтральное">Нейтральное</option>
+        </select>
+    </div>
 
     <div class="section-title">Мои предпочтения <span class="optional">(необязательно)</span></div>
-    <label class="field-label">Возраст (лет)</label>
-    <div class="row-inputs">
-        <span>От</span> <input type="number" id="pref_age_from" min="18" placeholder="18">
-        <span>До</span> <input type="number" id="pref_age_to" min="18" placeholder="30">
+    <div class="inline-field">
+        <label>Возраст:</label>
+        <input type="number" id="pref_age_from" min="18" placeholder="От">
+        <span>-</span>
+        <input type="number" id="pref_age_to" min="18" placeholder="До">
+        <span>лет</span>
     </div>
-    <label class="field-label">Рост (см)</label>
-    <div class="row-inputs">
-        <span>От</span> <input type="number" id="pref_height_from" placeholder="160">
-        <span>До</span> <input type="number" id="pref_height_to" placeholder="190">
+    <div class="inline-field">
+        <label>Рост:</label>
+        <input type="number" id="pref_height_from" placeholder="От">
+        <span>-</span>
+        <input type="number" id="pref_height_to" placeholder="До">
+        <span>см</span>
     </div>
-    <label class="field-label">Вес (кг)</label>
-    <div class="row-inputs">
-        <span>От</span> <input type="number" id="pref_weight_from" placeholder="50">
-        <span>До</span> <input type="number" id="pref_weight_to" placeholder="80">
+    <div class="inline-field">
+        <label>Вес:</label>
+        <input type="number" id="pref_weight_from" placeholder="От">
+        <span>-</span>
+        <input type="number" id="pref_weight_to" placeholder="До">
+        <span>кг</span>
     </div>
-    <label class="field-label">список 2</label>
-    <select id="pref_list2">
-        <option value="" disabled selected>Выберите...</option>
-        <option value="не важно">Не важно</option>
+    <div class="inline-field">
+        <label for="pref_list2">список 2:</label>
+        <select id="pref_list2">
+            <option value="" disabled selected>Выберите...</option>
+            <option value="не важно">Не важно</option>
         <option value="положительное">Положительное</option>
         <option value="отрицательное">Отрицательное</option>
         <option value="нейтральное">Нейтральное</option>
@@ -266,6 +306,20 @@
         titleInput.addEventListener('input', updateCounters);
         descInput.addEventListener('input', updateCounters);
         
+        // Мгновенная валидация для "Раздел 1"
+        const section1Checkboxes = document.querySelectorAll('input[name="section1"]');
+        const section1Error = document.getElementById('section1Error');
+        function validateSection1() {
+            const checkedCount = document.querySelectorAll('input[name="section1"]:checked').length;
+            if (checkedCount === 0) {
+                section1Error.style.display = 'block';
+            } else {
+                section1Error.style.display = 'none';
+            }
+        }
+        section1Checkboxes.forEach(cb => cb.addEventListener('change', validateSection1));
+
+
         // Валидация возраста на лету
         const ageInputs = ['my_age', 'pref_age_from', 'pref_age_to'];
         ageInputs.forEach(id => {
@@ -384,6 +438,7 @@
                 hasError = true;
             } else if (section1.length === 0) {
                 errorMsg = "Пожалуйста, выберите хотя бы один вариант в разделе 'Раздел 1'.";
+                validateSection1(); // Показываем ошибку под полем
                 hasError = true;
             } else if (!desc) {
                 descInput.classList.add('error-border');
