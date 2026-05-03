@@ -61,7 +61,7 @@ input:focus, select:focus, textarea:focus {
 }
 
 textarea {
-    height: 80px;
+    height: 160px;
     resize: vertical;
 }
 
@@ -191,6 +191,14 @@ textarea {
     background-color: var(--tg-theme-button-color, #3390ec);
     color: var(--tg-theme-button-text-color, #ffffff);
     border-color: var(--tg-theme-button-color, #3390ec);
+}
+
+/* Вложенные заголовки для раскрывающегося списка */
+.sub-section-title {
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 15px;
+    margin-bottom: 8px;
 }
 
 /* Кнопка отправки */
