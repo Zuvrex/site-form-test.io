@@ -9,7 +9,8 @@
 </head>
 <body>
 <div class="container">
-    <div class="section-title">Раздел 1 <span style="color:#ff4d4d">*</span></div>
+    <div class="section-title">Основное</div>
+    <label class="field-label">Блок чекбоксов <span style="color:#ff4d4d">*</span></label>
     <div class="checkbox-group">
         <label><input type="checkbox" name="section1" value="чекбокс1" id="cb1"> чекбокс1</label>
         <label><input type="checkbox" name="section1" value="чекбокс2" id="cb2"> чекбокс2</label>
@@ -17,7 +18,6 @@
     </div>
     <div id="section1Error" class="error-text" style="text-align: left; margin-top: 5px;">Пожалуйста, выберите хотя бы один вариант.</div>
 
-    <div class="section-title">Основное</div>
     <label for="title" class="field-label">Заголовок анкеты <span class="optional">(необязательно)</span></label>
     <input type="text" id="title" placeholder="Например: Ищу друга">
     <div id="titleCounter" class="counter">0/50</div>
@@ -282,7 +282,7 @@
                 errorMsg = "Ошибка авторизации. Убедитесь, что открыли форму через Telegram.";
                 hasError = true;
             } else if (section1.length === 0) {
-                errorMsg = "Пожалуйста, выберите хотя бы один вариант в разделе 'Раздел 1'.";
+                errorMsg = "Пожалуйста, выберите хотя бы один вариант в блоке чекбоксов.";
                 validateSection1(); // Показываем ошибку под полем
                 hasError = true;
             } else if (!desc) {
