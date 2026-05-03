@@ -195,10 +195,12 @@ textarea {
 
 /* Вложенные заголовки для раскрывающегося списка */
 .sub-section-title {
-    font-size: 14px;
-    font-weight: 600;
-    margin-top: 15px;
-    margin-bottom: 8px;
+    font-size: 15px;
+    font-weight: bold;
+    margin-top: 24px;
+    margin-bottom: 12px;
+    padding-bottom: 5px;
+    border-bottom: 1px dashed var(--tg-theme-hint-color, #ccc);
 }
 
 /* Кнопка отправки */
