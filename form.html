@@ -26,7 +26,10 @@
     <textarea id="description" placeholder="Ваш возраст, город, интересы и т.д..."></textarea>
     <div id="descCounter" class="counter">0/1500</div>
 
-    <div class="section-title">Мои параметры <span class="optional">(необязательно)</span></div>
+    <details>
+        <summary class="section-title" style="cursor: pointer; user-select: none;">Дополнительные параметры <span class="optional">(необязательно)</span></summary>
+        
+        <div class="sub-section-title">Мои параметры</div>
     <div class="inline-field">
         <label for="my_age">Возраст:</label>
         <input type="number" id="my_age" min="18">
@@ -45,15 +48,14 @@
     <div class="inline-field">
         <label for="my_list1">список 1:</label>
         <select id="my_list1">
-            <option value="" disabled selected>Выберите...</option>
-            <option value="не важно">Не важно</option>
+            <option value="не важно" selected>Не важно</option>
             <option value="положительное">Положительное</option>
             <option value="отрицательное">Отрицательное</option>
             <option value="нейтральное">Нейтральное</option>
         </select>
     </div>
 
-    <div class="section-title">Мои предпочтения <span class="optional">(необязательно)</span></div>
+        <div class="sub-section-title">Мои предпочтения</div>
     <div class="inline-field">
         <label>Возраст:</label>
         <input type="number" id="pref_age_from" min="18" placeholder="От">
@@ -78,13 +80,13 @@
     <div class="inline-field">
         <label for="pref_list2">список 2:</label>
         <select id="pref_list2">
-            <option value="" disabled selected>Выберите...</option>
-            <option value="не важно">Не важно</option>
+            <option value="не важно" selected>Не важно</option>
         <option value="положительное">Положительное</option>
         <option value="отрицательное">Отрицательное</option>
         <option value="нейтральное">Нейтральное</option>
     </select>
     </div>
+    </details>
 
     <div class="section-title">Фотографии <span class="optional">(необязательно)</span></div>
     <input type="file" id="photos" accept="image/jpeg, image/png, image/gif" multiple>
@@ -360,7 +362,7 @@
                     age: document.getElementById('my_age').value,
                     height: document.getElementById('my_height').value,
                     weight: document.getElementById('my_weight').value,
-                    list1: document.getElementById('my_list1').value || ""
+                    list1: document.getElementById('my_list1').value
                 },
                 my_prefs: {
                     age_from: document.getElementById('pref_age_from').value,
@@ -369,7 +371,7 @@
                     height_to: document.getElementById('pref_height_to').value,
                     weight_from: document.getElementById('pref_weight_from').value,
                     weight_to: document.getElementById('pref_weight_to').value,
-                    list2: document.getElementById('pref_list2').value || ""
+                    list2: document.getElementById('pref_list2').value
                 },
                 tags: selectedTags,
                 photos: photoUrls,
