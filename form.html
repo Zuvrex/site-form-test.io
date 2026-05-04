@@ -122,6 +122,10 @@
         const fbUrl = params.get('fb');
         const isPub = params.get('is_pub') === '1';
 
+        function showPubAlert() {
+            tg.showAlert("Так как объявление уже опубликовано, в нем нельзя изменить заголовок, блок чекбоксов и теги.");
+        }
+
         let initialData = null;
         if (formDataStr) {
             try {
@@ -219,7 +223,7 @@
                         const isSelected = initialData?.tags?.includes(t) ? 'selected' : '';
                         if(isSelected) selectedTags.push(t);
                         if (isPub) {
-                            currentHtml += `<div class="tag-chip ${isSelected}" style="cursor: not-allowed; opacity: 0.8;">#${t}</div>`;
+                            currentHtml += `<div class="tag-chip ${isSelected}" style="cursor: not-allowed; opacity: 0.8;" onclick="showPubAlert()">#${t}</div>`;
                         } else {
                             currentHtml += `<div class="tag-chip ${isSelected}" onclick="toggleTag(this, '${t}')">#${t}</div>`;
                         }
@@ -286,9 +290,20 @@
         }
         
         if (isPub) {
-            titleInput.disabled = true;
+            titleInput.readOnly = true;
             titleInput.style.backgroundColor = 'var(--tg-theme-secondary-bg-color, #f4f4f5)';
-            document.querySelectorAll('input[name="section1"]').forEach(cb => cb.disabled = true);
+            titleInput.style.cursor = 'not-allowed';
+            titleInput.addEventListener('click', showPubAlert);
+            titleInput.addEventListener('focus', function() { this.blur(); }); // убираем фокус, чтобы не всплывала клавиатура
+            
+            const cbGroup = document.querySelector('.checkbox-group');
+            cbGroup.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                showPubAlert();
+            }, true); // Используем фазу захвата (capture), чтобы перехватить клик до его попадания в чекбокс
+            
+            document.querySelectorAll('.checkbox-group label').forEach(label => label.style.cursor = 'not-allowed');
         }
 
         loadTags();
