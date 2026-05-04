@@ -28,7 +28,15 @@
 
     <label for="photos" class="field-label">Фотографии <span class="optional">(необязательно)</span></label>
     <input type="file" id="photos" accept="image/jpeg, image/png, image/gif" multiple>
-    <span class="hint">Можно прикрепить до 3-х фотографий (каждая до 5 МБ)</span>
+    <span class="hint">Можно прикрепить до 3-х фотографий (каждая до 5 МБ).<br>⚠️ При загрузке новых фото старые удалятся автоматически.</span>
+
+    <div id="currentPhotosContainer" style="display: none; margin-top: 10px; padding: 12px; background: var(--tg-theme-secondary-bg-color, #f4f4f5); border-radius: 8px; border: 1px solid var(--tg-theme-hint-color, #ccc);">
+        <div style="font-size: 13px; margin-bottom: 6px;">В анкете прикреплено фото: <strong id="currentPhotosCount">0</strong> шт.</div>
+        <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer; color: #ff4d4d; margin-top: 8px;">
+            <input type="checkbox" id="removeOldPhotos" style="width: auto; margin: 0; padding: 0; accent-color: #ff4d4d;">
+            <strong>Удалить текущие фото</strong>
+        </label>
+    </div>
 
     <details style="margin-top: 25px;">
         <summary class="section-title" style="cursor: pointer; user-select: none; margin-top: 0;">Дополнительные параметры <span class="optional">(необязательно)</span></summary>
@@ -179,6 +187,16 @@
 
         let selectedTags = [];
         
+        // Скрытие старых фото при выборе новых файлов
+        document.getElementById('photos').addEventListener('change', function() {
+            if (this.files.length > 0) {
+                document.getElementById('currentPhotosContainer').style.display = 'none';
+                document.getElementById('removeOldPhotos').checked = false;
+            } else if (initialData && initialData.photos && initialData.photos.length > 0) {
+                document.getElementById('currentPhotosContainer').style.display = 'block';
+            }
+        });
+        
         // Загрузка тегов из файла
         async function loadTags() {
             try {
@@ -225,6 +243,11 @@
         if (initialData) {
             if (initialData.title) titleInput.value = initialData.title;
             if (initialData.description) descInput.value = initialData.description;
+            
+            if (initialData.photos && initialData.photos.length > 0) {
+                document.getElementById('currentPhotosContainer').style.display = 'block';
+                document.getElementById('currentPhotosCount').innerText = initialData.photos.length;
+            }
             
             if (initialData.section1) {
                 ['cb1', 'cb2', 'cb3'].forEach((id, idx) => {
@@ -375,6 +398,7 @@
                 },
                 tags: selectedTags,
                 photos: photoUrls,
+                clear_photos: document.getElementById('removeOldPhotos').checked,
                 user_id: userId
             };
 
