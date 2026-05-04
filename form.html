@@ -120,6 +120,7 @@
         const createMsgId = params.get('create_msg_id');
         const formDataStr = params.get('form_data');
         const fbUrl = params.get('fb');
+        const isPub = params.get('is_pub') === '1';
 
         let initialData = null;
         if (formDataStr) {
@@ -217,7 +218,11 @@
                     } else {
                         const isSelected = initialData?.tags?.includes(t) ? 'selected' : '';
                         if(isSelected) selectedTags.push(t);
-                        currentHtml += `<div class="tag-chip ${isSelected}" onclick="toggleTag(this, '${t}')">#${t}</div>`;
+                        if (isPub) {
+                            currentHtml += `<div class="tag-chip ${isSelected}" style="cursor: not-allowed; opacity: 0.8;">#${t}</div>`;
+                        } else {
+                            currentHtml += `<div class="tag-chip ${isSelected}" onclick="toggleTag(this, '${t}')">#${t}</div>`;
+                        }
                     }
                 });
                 container.innerHTML = currentHtml;
@@ -278,6 +283,12 @@
             document.getElementById('cb1').checked = true;
             document.getElementById('cb2').checked = true;
             document.getElementById('cb3').checked = true;
+        }
+        
+        if (isPub) {
+            titleInput.disabled = true;
+            titleInput.style.backgroundColor = 'var(--tg-theme-secondary-bg-color, #f4f4f5)';
+            document.querySelectorAll('input[name="section1"]').forEach(cb => cb.disabled = true);
         }
 
         loadTags();
