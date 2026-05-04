@@ -28,10 +28,10 @@
 
     <label for="photos" class="field-label">Фотографии <span class="optional">(необязательно)</span></label>
     <input type="file" id="photos" accept="image/jpeg, image/png, image/gif" multiple>
-    <span class="hint">Можно прикрепить до 3-х фотографий (каждая до 5 МБ).<br>⚠️ При загрузке новых фото старые удалятся автоматически.</span>
+    <span class="hint">Можно прикрепить до 3-х фотографий (каждая до 5 МБ).</span>
 
     <div id="currentPhotosContainer" style="display: none; margin-top: 10px; padding: 12px; background: var(--tg-theme-secondary-bg-color, #f4f4f5); border-radius: 8px; border: 1px solid var(--tg-theme-hint-color, #ccc);">
-        <div style="font-size: 13px; margin-bottom: 6px;">В анкете прикреплено фото: <strong id="currentPhotosCount">0</strong> шт.</div>
+        <div style="font-size: 13px; margin-bottom: 6px;">В анкете прикреплено фото: <strong id="currentPhotosCount">0</strong> шт.<br><span style="color: var(--tg-theme-hint-color, #999); font-size: 12px;">⚠️ При загрузке новых фото старые удалятся автоматически.</span></div>
         <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer; color: #ff4d4d; margin-top: 8px;">
             <input type="checkbox" id="removeOldPhotos" style="width: auto; margin: 0; padding: 0; accent-color: #ff4d4d;">
             <strong>Удалить текущие фото</strong>
