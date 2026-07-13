@@ -1,177 +1,459 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Создать объявление</title>
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Создание объявления</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <main class="container">
-    <h1>Создать объявление</h1>
+<div class="container">
+    <div class="section-title">Основное</div>
+    <label class="field-label">Блок чекбоксов <span style="color:#ff4d4d">*</span></label>
+    <div class="checkbox-group">
+        <label><input type="checkbox" name="section1" value="чекбокс1" id="cb1"> чекбокс1</label>
+        <label><input type="checkbox" name="section1" value="чекбокс2" id="cb2"> чекбокс2</label>
+        <label><input type="checkbox" name="section1" value="чекбокс3" id="cb3"> чекбокс3</label>
+    </div>
+    <div id="section1Error" class="error-text" style="text-align: left; margin-top: 5px;">Пожалуйста, выберите хотя бы один вариант.</div>
 
-    <label>Блок чекбоксов</label>
-    <div class="check-grid">
-      <label><input type="checkbox" name="section1" value="чекбокс1"> чекбокс1</label>
-      <label><input type="checkbox" name="section1" value="чекбокс2"> чекбокс2</label>
-      <label><input type="checkbox" name="section1" value="чекбокс3"> чекбокс3</label>
+    <label for="title" class="field-label" style="margin-top: 25px;">Заголовок анкеты <span class="optional">(необязательно)</span></label>
+    <input type="text" id="title" placeholder="Например: Ищу друга">
+    <div id="titleCounter" class="counter">0/50</div>
+
+    <label for="description" class="field-label">Описание <span style="color:#ff4d4d">*</span></label>
+    <textarea id="description" placeholder="Ваш возраст, город, интересы и т.д..."></textarea>
+    <div id="descCounter" class="counter">0/1500</div>
+
+    <label for="photos" class="field-label">Фотографии <span class="optional">(необязательно)</span></label>
+    <input type="file" id="photos" accept="image/jpeg, image/png, image/gif" multiple>
+    <span class="hint">Можно прикрепить до 3-х фотографий (каждая до 5 МБ).</span>
+
+    <div id="currentPhotosContainer" style="display: none; margin-top: 10px; padding: 12px; background: var(--tg-theme-secondary-bg-color, #f4f4f5); border-radius: 8px; border: 1px solid var(--tg-theme-hint-color, #ccc);">
+        <div style="font-size: 13px; margin-bottom: 6px;">В анкете прикреплено фото: <strong id="currentPhotosCount">0</strong> шт.</div>
+        <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer; color: #ff4d4d; margin-top: 8px;">
+            <input type="checkbox" id="removeOldPhotos" style="width: auto; margin: 0; padding: 0; accent-color: #ff4d4d;">
+            <strong>Удалить текущие фото</strong>
+        </label>
+        <div style="color: var(--tg-theme-hint-color, #999); font-size: 12px; margin-top: 8px;">⚠️ При загрузке новых фото старые удалятся автоматически.</div>
     </div>
 
-    <label for="title">Заголовок</label>
-    <input id="title" maxlength="50" placeholder="Например: Ищу друга">
+    <details style="margin-top: 25px;">
+        <summary class="section-title" style="cursor: pointer; user-select: none; margin-top: 0;">Дополнительные параметры <span class="optional">(необязательно)</span></summary>
+        
+        <div class="sub-section-title">Мои параметры</div>
+    <div class="inline-field">
+        <label for="my_age">Возраст:</label>
+        <input type="number" id="my_age" min="18">
+        <span>лет</span>
+    </div>
+    <div class="inline-field">
+        <label for="my_height">Рост:</label>
+        <input type="number" id="my_height">
+        <span>см</span>
+    </div>
+    <div class="inline-field">
+        <label for="my_weight">Вес:</label>
+        <input type="number" id="my_weight">
+        <span>кг</span>
+    </div>
+    <div class="inline-field">
+        <label for="my_list1">список 1:</label>
+        <select id="my_list1">
+            <option value="не важно" selected>Не важно</option>
+            <option value="положительное">Положительное</option>
+            <option value="отрицательное">Отрицательное</option>
+            <option value="нейтральное">Нейтральное</option>
+        </select>
+    </div>
 
-    <label for="description">Описание</label>
-    <textarea id="description" maxlength="1500" placeholder="Возраст, город, интересы..."></textarea>
+        <div class="sub-section-title">Мои предпочтения</div>
+    <div class="inline-field">
+        <label>Возраст:</label>
+        <input type="number" id="pref_age_from" min="18" placeholder="От">
+        <span>-</span>
+        <input type="number" id="pref_age_to" min="18" placeholder="До">
+        <span>лет</span>
+    </div>
+    <div class="inline-field">
+        <label>Рост:</label>
+        <input type="number" id="pref_height_from" placeholder="От">
+        <span>-</span>
+        <input type="number" id="pref_height_to" placeholder="До">
+        <span>см</span>
+    </div>
+    <div class="inline-field">
+        <label>Вес:</label>
+        <input type="number" id="pref_weight_from" placeholder="От">
+        <span>-</span>
+        <input type="number" id="pref_weight_to" placeholder="До">
+        <span>кг</span>
+    </div>
+    <div class="inline-field">
+        <label for="pref_list2">список 2:</label>
+        <select id="pref_list2">
+            <option value="не важно" selected>Не важно</option>
+        <option value="положительное">Положительное</option>
+        <option value="отрицательное">Отрицательное</option>
+        <option value="нейтральное">Нейтральное</option>
+    </select>
+    </div>
 
-    <label for="photos">Фотографии</label>
-    <input type="file" id="photos" accept="image/jpeg,image/png,image/gif" multiple>
-    <p class="hint">До 3 файлов, каждый до 5 МБ.</p>
-
-    <details>
-      <summary>Дополнительные параметры</summary>
-      <div class="row">
-        <input id="my_age" type="number" min="18" placeholder="Мой возраст">
-        <input id="my_height" type="number" placeholder="Рост">
-        <input id="my_weight" type="number" placeholder="Вес">
-      </div>
-      <div class="row">
-        <input id="pref_age_from" type="number" min="18" placeholder="Возраст от">
-        <input id="pref_age_to" type="number" min="18" placeholder="Возраст до">
-      </div>
-      <div class="row">
-        <input id="pref_height_from" type="number" placeholder="Рост от">
-        <input id="pref_height_to" type="number" placeholder="Рост до">
-      </div>
-      <div class="row">
-        <input id="pref_weight_from" type="number" placeholder="Вес от">
-        <input id="pref_weight_to" type="number" placeholder="Вес до">
-      </div>
+    <div class="sub-section-title">Теги <span class="optional">(до 3-х)</span></div>
+    <div class="tags-container" id="tagsContainer">
+        <div style="text-align: center; color: gray; padding: 10px;">Загрузка тегов...</div>
+    </div>
     </details>
 
-    <label for="tags">Теги</label>
-    <input id="tags" placeholder="спорт, музыка, прогулки">
+    <div id="formError" class="error-text" style="text-align: center; font-size: 15px;"></div>
+    <button id="submitBtn" onclick="sendForm()">Сохранить объявление</button>
+</div>
 
-    <p id="error" class="error"></p>
-    <button id="submitBtn" type="button">Сохранить и опубликовать</button>
-  </main>
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.expand();
 
-  <script>
-    const tg = window.Telegram.WebApp;
-    tg.expand();
+        // Читаем параметры из URL (если форма открыта для редактирования)
+        const params = new URLSearchParams(window.location.search);
+        const editMsgId = params.get('edit_msg_id');
+        const createMsgId = params.get('create_msg_id');
+        const formDataStr = params.get('form_data');
+        const fbUrl = params.get('fb');
+        const userIdFromUrl = params.get('user_id');
+        const isPub = params.get('is_pub') === '1';
 
-    const params = new URLSearchParams(location.search);
-    const fbUrl = params.get("fb");
-    const userIdFromUrl = params.get("user_id");
-    const userId = tg.initDataUnsafe?.user?.id || userIdFromUrl;
-    const submitBtn = document.getElementById("submitBtn");
-    const errorEl = document.getElementById("error");
-
-    function showError(text) {
-      errorEl.textContent = text;
-      errorEl.style.display = "block";
-    }
-
-    function makeToken() {
-      const random = Math.random().toString(36).slice(2);
-      return `${Date.now().toString(36)}_${random}`;
-    }
-
-    async function uploadPhotos(files) {
-      const urls = [];
-      for (const file of files) {
-        if (file.size > 5 * 1024 * 1024) {
-          throw new Error(`Файл ${file.name} больше 5 МБ`);
+        function makeToken() {
+            const random = Math.random().toString(36).slice(2);
+            return `${Date.now().toString(36)}_${random}`;
         }
-        const form = new FormData();
-        form.append("reqtype", "fileupload");
-        form.append("time", "72h");
-        form.append("fileToUpload", file);
-        const response = await fetch("https://litterbox.catbox.moe/resources/internals/api.php", {
-          method: "POST",
-          body: form
-        });
-        if (!response.ok) throw new Error("Не удалось загрузить фото");
-        const url = (await response.text()).trim();
-        if (url.startsWith("http")) urls.push(url);
-      }
-      return urls;
-    }
 
-    async function submitForm() {
-      errorEl.style.display = "none";
+        function showPubAlert() {
+            tg.showAlert("В опубликованных объявлениях нельзя изменить заголовок, блок чекбоксов и теги.");
+        }
 
-      if (!fbUrl || !userId) {
-        showError("Форма должна быть открыта из Telegram.");
-        return;
-      }
+        let initialData = null;
+        if (formDataStr) {
+            try {
+                initialData = JSON.parse(decodeURIComponent(formDataStr));
+            } catch (e) {
+                console.error("Ошибка парсинга form_data", e);
+            }
+        }
 
-      const section1 = Array.from(document.querySelectorAll("input[name='section1']:checked")).map((item) => item.value);
-      const description = document.getElementById("description").value.trim();
-      const files = Array.from(document.getElementById("photos").files);
+        const titleInput = document.getElementById('title');
+        const descInput = document.getElementById('description');
+        const titleCounter = document.getElementById('titleCounter');
+        const descCounter = document.getElementById('descCounter');
+        const errorText = document.getElementById('formError');
 
-      if (section1.length === 0) {
-        showError("Выбери хотя бы один чекбокс.");
-        return;
-      }
-      if (!description) {
-        showError("Заполни описание.");
-        return;
-      }
-      if (files.length > 3) {
-        showError("Можно прикрепить не больше 3 фото.");
-        return;
-      }
+        function updateCounters() {
+            const titleLen = titleInput.value.length;
+            const descLen = descInput.value.length;
+            
+            titleCounter.innerText = `${titleLen}/50`;
+            if (titleLen > 50) {
+                titleCounter.classList.add('limit-exceeded');
+                titleInput.classList.add('error-border');
+            } else {
+                titleCounter.classList.remove('limit-exceeded');
+                titleInput.classList.remove('error-border');
+            }
+            
+            descCounter.innerText = `${descLen}/1500`;
+            if (descLen > 1500) {
+                descCounter.classList.add('limit-exceeded');
+                descInput.classList.add('error-border');
+            } else {
+                descCounter.classList.remove('limit-exceeded');
+                descInput.classList.remove('error-border');
+            }
+        }
 
-      submitBtn.disabled = true;
-      submitBtn.textContent = "Сохраняю...";
+        titleInput.addEventListener('input', updateCounters);
+        descInput.addEventListener('input', updateCounters);
+        
+        // Мгновенная валидация для "Раздел 1"
+        const section1Checkboxes = document.querySelectorAll('input[name="section1"]');
+        const section1Error = document.getElementById('section1Error');
+        function validateSection1() {
+            const checkedCount = document.querySelectorAll('input[name="section1"]:checked').length;
+            if (checkedCount === 0) {
+                section1Error.style.display = 'block';
+            } else {
+                section1Error.style.display = 'none';
+            }
+        }
+        section1Checkboxes.forEach(cb => cb.addEventListener('change', validateSection1));
 
-      try {
-        const token = makeToken();
-        const photos = await uploadPhotos(files);
-        const tags = document.getElementById("tags").value
-          .split(",")
-          .map((tag) => tag.trim())
-          .filter(Boolean)
-          .slice(0, 3);
 
-        const payload = {
-          user_id: Number(userId),
-          title: document.getElementById("title").value.trim(),
-          description,
-          section1,
-          tags,
-          photos,
-          my_params: {
-            age: document.getElementById("my_age").value,
-            height: document.getElementById("my_height").value,
-            weight: document.getElementById("my_weight").value
-          },
-          my_prefs: {
-            age_from: document.getElementById("pref_age_from").value,
-            age_to: document.getElementById("pref_age_to").value,
-            height_from: document.getElementById("pref_height_from").value,
-            height_to: document.getElementById("pref_height_to").value,
-            weight_from: document.getElementById("pref_weight_from").value,
-            weight_to: document.getElementById("pref_weight_to").value
-          }
-        };
-
-        await fetch(`${fbUrl}/inline_submissions/${token}.json`, {
-          method: "PUT",
-          headers: {"Content-Type": "application/json"},
-          body: JSON.stringify(payload)
+        // Валидация возраста на лету
+        const ageInputs = ['my_age', 'pref_age_from', 'pref_age_to'];
+        ageInputs.forEach(id => {
+            const el = document.getElementById(id);
+            el.addEventListener('input', () => {
+                if (el.value && parseInt(el.value) < 18) el.classList.add('error-border');
+                else el.classList.remove('error-border');
+            });
         });
 
-        tg.switchInlineQuery(`publish:${token}`);
-      } catch (error) {
-        showError(error.message || "Не удалось сохранить объявление.");
-        submitBtn.disabled = false;
-        submitBtn.textContent = "Сохранить и опубликовать";
-      }
-    }
+        let selectedTags = [];
+        
+        // Скрытие старых фото при выборе новых файлов
+        document.getElementById('photos').addEventListener('change', function() {
+            if (this.files.length > 0) {
+                document.getElementById('currentPhotosContainer').style.display = 'none';
+                document.getElementById('removeOldPhotos').checked = false;
+            } else if (initialData && initialData.photos && initialData.photos.length > 0) {
+                document.getElementById('currentPhotosContainer').style.display = 'block';
+            }
+        });
+        
+        // Загрузка тегов из файла
+        async function loadTags() {
+            try {
+                const response = await fetch('hashtags.txt');
+                const text = await response.text();
+                const container = document.getElementById('tagsContainer');
+                container.innerHTML = '';
+                
+                let currentHtml = '';
+                const lines = text.split('\n');
+                
+                lines.forEach(line => {
+                    const t = line.trim();
+                    if (!t) return;
+                    if (t.startsWith('*') && t.endsWith('*')) {
+                        currentHtml += `<div class="tag-category">${t.slice(1, -1)}</div>`;
+                    } else {
+                        const isSelected = initialData?.tags?.includes(t) ? 'selected' : '';
+                        if(isSelected) selectedTags.push(t);
+                        if (isPub) {
+                            currentHtml += `<div class="tag-chip ${isSelected}" style="cursor: not-allowed; opacity: 0.8;" onclick="showPubAlert()">#${t}</div>`;
+                        } else {
+                            currentHtml += `<div class="tag-chip ${isSelected}" onclick="toggleTag(this, '${t}')">#${t}</div>`;
+                        }
+                    }
+                });
+                container.innerHTML = currentHtml;
+            } catch (e) {
+                document.getElementById('tagsContainer').innerHTML = '<div style="color:red; padding:10px;">Ошибка загрузки тегов</div>';
+            }
+        }
 
-    submitBtn.addEventListener("click", submitForm);
-  </script>
+        window.toggleTag = function(element, tag) {
+            if (selectedTags.includes(tag)) {
+                selectedTags = selectedTags.filter(t => t !== tag);
+                element.classList.remove('selected');
+            } else {
+                if (selectedTags.length >= 3) {
+                    tg.showAlert("Можно выбрать не более 3-х тегов.");
+                    return;
+                }
+                selectedTags.push(tag);
+                element.classList.add('selected');
+            }
+        }
+
+        // Предзаполнение формы
+        if (initialData) {
+            if (initialData.title) titleInput.value = initialData.title;
+            if (initialData.description) descInput.value = initialData.description;
+            
+            if (initialData.photos && initialData.photos.length > 0) {
+                document.getElementById('currentPhotosContainer').style.display = 'block';
+                document.getElementById('currentPhotosCount').innerText = initialData.photos.length;
+            }
+            
+            if (initialData.section1) {
+                ['cb1', 'cb2', 'cb3'].forEach((id, idx) => {
+                    const val = ['чекбокс1', 'чекбокс2', 'чекбокс3'][idx];
+                    document.getElementById(id).checked = initialData.section1.includes(val);
+                });
+            }
+            
+            if(initialData.my_params) {
+                if(initialData.my_params.age) document.getElementById('my_age').value = initialData.my_params.age;
+                if(initialData.my_params.height) document.getElementById('my_height').value = initialData.my_params.height;
+                if(initialData.my_params.weight) document.getElementById('my_weight').value = initialData.my_params.weight;
+                if(initialData.my_params.list1) document.getElementById('my_list1').value = initialData.my_params.list1;
+            }
+            
+            if(initialData.my_prefs) {
+                if(initialData.my_prefs.age_from) document.getElementById('pref_age_from').value = initialData.my_prefs.age_from;
+                if(initialData.my_prefs.age_to) document.getElementById('pref_age_to').value = initialData.my_prefs.age_to;
+                if(initialData.my_prefs.height_from) document.getElementById('pref_height_from').value = initialData.my_prefs.height_from;
+                if(initialData.my_prefs.height_to) document.getElementById('pref_height_to').value = initialData.my_prefs.height_to;
+                if(initialData.my_prefs.weight_from) document.getElementById('pref_weight_from').value = initialData.my_prefs.weight_from;
+                if(initialData.my_prefs.weight_to) document.getElementById('pref_weight_to').value = initialData.my_prefs.weight_to;
+                if(initialData.my_prefs.list2) document.getElementById('pref_list2').value = initialData.my_prefs.list2;
+            }
+        } else {
+            // По умолчанию выбираем все 3 чекбокса для Раздела 1 для новых пользователей
+            document.getElementById('cb1').checked = true;
+            document.getElementById('cb2').checked = true;
+            document.getElementById('cb3').checked = true;
+        }
+        
+        if (isPub) {
+            titleInput.readOnly = true;
+            titleInput.style.backgroundColor = 'var(--tg-theme-secondary-bg-color, #f4f4f5)';
+            titleInput.style.cursor = 'not-allowed';
+            titleInput.addEventListener('click', showPubAlert);
+            titleInput.addEventListener('focus', function() { this.blur(); }); // убираем фокус, чтобы не всплывала клавиатура
+            
+            const cbGroup = document.querySelector('.checkbox-group');
+            cbGroup.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                showPubAlert();
+            }, true); // Используем фазу захвата (capture), чтобы перехватить клик до его попадания в чекбокс
+            
+            document.querySelectorAll('.checkbox-group label').forEach(label => label.style.cursor = 'not-allowed');
+        }
+
+        loadTags();
+        updateCounters();
+
+        async function sendForm() {
+            let title = titleInput.value.trim();
+            const desc = document.getElementById('description').value.trim();
+            const fileInput = document.getElementById('photos');
+            const userId = tg.initDataUnsafe?.user?.id || userIdFromUrl;
+            
+            const section1 = Array.from(document.querySelectorAll('input[name="section1"]:checked')).map(cb => cb.value);
+
+            errorText.style.display = 'none';
+            let hasError = false;
+            let errorMsg = "";
+            
+            // Проверка возраста
+            const age1 = document.getElementById('my_age').value;
+            const age2 = document.getElementById('pref_age_from').value;
+            const age3 = document.getElementById('pref_age_to').value;
+            if ((age1 && parseInt(age1) < 18) || (age2 && parseInt(age2) < 18) || (age3 && parseInt(age3) < 18)) {
+                hasError = true;
+                errorMsg = "Минимальный допустимый возраст — 18 лет.";
+            }
+
+            if (!userId || !fbUrl) {
+                errorMsg = "Ошибка авторизации. Убедитесь, что открыли форму через Telegram.";
+                hasError = true;
+            } else if (section1.length === 0) {
+                errorMsg = "Пожалуйста, выберите хотя бы один вариант в блоке чекбоксов.";
+                validateSection1(); // Показываем ошибку под полем
+                hasError = true;
+            } else if (!desc) {
+                descInput.classList.add('error-border');
+                errorMsg = "Пожалуйста, заполните обязательное поле 'Описание анкеты'.";
+                hasError = true;
+            } else if (titleInput.value.length > 50) {
+                titleInput.classList.add('error-border');
+                errorMsg = "Длина заголовка не должна превышать 50 символов.";
+                hasError = true;
+            } else if (descInput.value.length > 1500) {
+                descInput.classList.add('error-border');
+                errorMsg = "Длина описания не должна превышать 1500 символов.";
+                hasError = true;
+            }
+
+            if (hasError) {
+                errorText.innerText = errorMsg;
+                errorText.style.display = 'block';
+                return;
+            }
+
+            if (fileInput.files.length > 3) {
+                tg.showAlert("Можно прикрепить не более 3-х фотографий.");
+                return;
+            }
+
+            for (let i = 0; i < fileInput.files.length; i++) {
+                if (fileInput.files[i].size > 5 * 1024 * 1024) {
+                    tg.showAlert(`Файл "${fileInput.files[i].name}" слишком большой. Максимальный размер — 5 МБ.`);
+                    return;
+                }
+            }
+
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+            btn.innerText = "Загрузка фото и создание анкеты...";
+
+            let photoUrls = [];
+
+            // Загружаем выбранные файлы напрямую на Litterbox (Catbox)
+            if (fileInput.files.length > 0) {
+                try {
+                    const uploadPromises = Array.from(fileInput.files).map(async (file) => {
+                        const formData = new FormData();
+                        formData.append('reqtype', 'fileupload');
+                        formData.append('time', '72h'); // Удаление через 72 часа
+                        formData.append('fileToUpload', file);
+
+                        const response = await fetch('https://litterbox.catbox.moe/resources/internals/api.php', {
+                            method: 'POST',
+                            body: formData
+                        });
+                        
+                        if (!response.ok) throw new Error("Network error");
+                        return await response.text();
+                    });
+                    
+                    const results = await Promise.all(uploadPromises);
+                    photoUrls = results.filter(url => url.startsWith('http')).map(url => url.trim());
+                } catch (e) {
+                    console.error("Ошибка загрузки:", e);
+                    tg.showAlert("Ошибка при загрузке фото на сервер.");
+                    btn.disabled = false;
+                    btn.innerText = "Сохранить объявление";
+                    return;
+                }
+            }
+
+            const payload = {
+                title: title,
+                description: desc,
+                section1: section1,
+                my_params: {
+                    age: document.getElementById('my_age').value,
+                    height: document.getElementById('my_height').value,
+                    weight: document.getElementById('my_weight').value,
+                    list1: document.getElementById('my_list1').value
+                },
+                my_prefs: {
+                    age_from: document.getElementById('pref_age_from').value,
+                    age_to: document.getElementById('pref_age_to').value,
+                    height_from: document.getElementById('pref_height_from').value,
+                    height_to: document.getElementById('pref_height_to').value,
+                    weight_from: document.getElementById('pref_weight_from').value,
+                    weight_to: document.getElementById('pref_weight_to').value,
+                    list2: document.getElementById('pref_list2').value
+                },
+                tags: selectedTags,
+                photos: photoUrls,
+                clear_photos: document.getElementById('removeOldPhotos').checked,
+                user_id: userId
+            };
+
+            try {
+                const token = makeToken();
+                await fetch(`${fbUrl}/inline_submissions/${token}.json`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                if (typeof tg.switchInlineQuery === 'function') {
+                    tg.switchInlineQuery(`publish:${token}`);
+                } else {
+                    tg.close();
+                }
+            } catch (e) {
+                console.error("Ошибка сохранения в базу:", e);
+                tg.showAlert("Не удалось отправить данные на сервер.");
+                btn.disabled = false;
+                btn.innerText = "💾 Сохранить анкету";
+            }
+        }
+    </script>
 </body>
 </html>
