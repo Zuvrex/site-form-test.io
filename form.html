@@ -457,6 +457,7 @@
             const tgApp = window.Telegram.WebApp;
             const urlParams = new URLSearchParams(window.location.search);
             const fb = urlParams.get('fb');
+            const editToken = urlParams.get('edit_token');
             const userId = tgApp.initDataUnsafe?.user?.id || urlParams.get('user_id');
             const title = document.getElementById('title').value.trim();
             const desc = document.getElementById('description').value.trim();
@@ -548,6 +549,16 @@
                     return;
                 }
             }
+            if (
+                fileInput.files.length === 0 &&
+                typeof initialData !== 'undefined' &&
+                initialData &&
+                Array.isArray(initialData.photos) &&
+                initialData.photos.length > 0 &&
+                !document.getElementById('removeOldPhotos').checked
+            ) {
+                photoUrls = initialData.photos;
+            }
 
             const selectedTagValues = Array.from(document.querySelectorAll('.tag-chip.selected'))
                 .map(chip => chip.textContent.replace(/^#/, '').trim())
@@ -578,6 +589,9 @@
                 clear_photos: document.getElementById('removeOldPhotos').checked,
                 user_id: Number(userId)
             };
+            if (editToken) {
+                payload.edit_token = editToken;
+            }
 
             try {
                 const token = makeToken();
@@ -587,7 +601,7 @@
                     body: JSON.stringify(payload)
                 });
                 if (typeof tgApp.switchInlineQuery === 'function') {
-                    tgApp.switchInlineQuery(`publish:${token}`);
+                    tgApp.switchInlineQuery('');
                 } else {
                     tgApp.close();
                 }
